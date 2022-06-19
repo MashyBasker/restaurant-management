@@ -2,6 +2,16 @@
 #include <stdlib.h>
 #include <string.h>
 
+skip_line(FILE *fp)
+{
+    int c;
+
+    while (c = fgetc(fp), c != '\n' && c != EOF)
+        ;
+
+    return c;
+}
+
 int main()
 {
     FILE *the_file = fopen("excelinput.csv", "r");
@@ -11,13 +21,14 @@ int main()
         exit(1);
     }
     char line[200];
+    skip_line(the_file);
 
     while (fgets(line, sizeof(line), the_file))
     {
+
         char *token;
 
         token = strtok(line, ",");
-
         // printf("%s", token);
 
         while (token != NULL)
