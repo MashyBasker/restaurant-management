@@ -2,15 +2,18 @@
 #include <stdlib.h>
 #include <string.h>
 
-struct node
-{
-    int srNo, quan, price;
-    char proName[50];
-    char preference[50];
-    struct node *next;
-};
+#define MAX 100
 
-struct node *head;
+typedef struct node
+{
+    int sr_no, prod_quant_sold, prod_price;
+    char prod_name[50];
+    char prod_type;
+    struct node *next;
+}node;
+
+int size = 0;
+node *head;
 
 int skip_line(FILE *fp)
 {
@@ -20,6 +23,39 @@ int skip_line(FILE *fp)
         ;
 
     return c;
+}
+
+// void create_menu_list() {
+//     int no_items , item_price , items_sold;
+//     char item_name[50] , item_type;
+//     printf("HOW MANY ITEMS ARE PRESENT IN THE MENU: ");
+//     scanf("%d" , &no_items);
+//     for (int i = 0 ; i < no_items ; i++) {
+//         printf("ENTER THE NAME OF THE ITEM %d: " , i + 1);
+//         scanf("%s" , &item_name);
+//         printf("ENTER THE PRICE OF THE ITEM %d: " , i + 1);
+//         scanf("%d" , &item_price);
+//         printf("ENTER THE TYPE OF THE ITEM %d [V/N]: " , i + 1);
+//         scanf(" %c" , &item_type);
+//         printf("ENTER THE NO. OF ITEM %d SOLD IN PAST WEEK: " , i + 1);
+//         scanf("%d" , &items_sold);
+//         push_back(item_name , item_price , items_sold , item_type);
+//     }
+// }
+
+void push_back(char name[50] , int price , int quant , char type) {
+    if (size >= MAX) {
+        printf("STACK OVERFLOW.\n");
+        exit(0);
+    }
+    node *new_node = (node *)malloc(sizeof(node));
+    strcpy(new_node->prod_name , name);
+    new_node->prod_quant_sold = quant;
+    new_node->prod_price = price;
+    new_node->prod_type = type;
+    new_node->next = head;
+    head = new_node;
+    size++;
 }
 
 void push(char *line)
@@ -42,27 +78,27 @@ void push(char *line)
             if (i == 1)
             {
                 i++;
-                ptr->srNo = atoi(token);
+                ptr->sr_no = atoi(token);
             }
             else if (i == 2)
             {
                 i++;
-                strcpy(ptr->proName, token);
+                strcpy(ptr->prod_name, token);
             }
             else if (i == 3)
             {
                 i++;
-                ptr->price = atoi(token);
+                ptr->prod_price = atoi(token);
             }
             else if (i == 4)
             {
                 i++;
-                ptr->quan = atoi(token);
+                ptr->prod_quant_sold = atoi(token);
             }
             else if (i == 5)
             {
 
-                strcpy(ptr->preference, token);
+                strcpy(ptr->prod_type, token);
             }
             // The first call to strtok must pass the C string to tokenize, and subsequent calls must specify NULL as the first argument, which tells the function to continue tokenizing the string you passed in first.
 
@@ -127,7 +163,7 @@ struct node *SortedMerge(struct node *a, struct node *b)
         return (a);
 
     /* Pick either a or b, and recur */
-    if (a->quan >= b->quan)
+    if (a->prod_quant_sold >= b->prod_quant_sold)
     {
         result = a;
         result->next = SortedMerge(a->next, b);
@@ -185,7 +221,7 @@ void display()
         printf("-----------------TODAYS MENU TO BE PREPARED------------------------- \n");
         while (ptr != NULL)
         {
-            printf("%d %s %d %d %s \n", ptr->srNo, ptr->proName, ptr->price, ptr->quan, ptr->preference);
+            printf("%d %s %d %d %s \n", ptr->sr_no, ptr->prod_name, ptr->prod_price, ptr->prod_quant_sold, ptr->prod_type);
             ptr = ptr->next;
         }
     }
