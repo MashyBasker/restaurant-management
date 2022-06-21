@@ -114,8 +114,6 @@ void MergeSort(struct node **headRef)
     *headRef = SortedMerge(a, b);
 }
 
-/* See https:// www.geeksforgeeks.org/?p=3622 for details of this
-function */
 struct node *SortedMerge(struct node *a, struct node *b)
 {
     struct node *result = NULL;

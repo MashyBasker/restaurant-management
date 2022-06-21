@@ -54,7 +54,7 @@ void push_back(char name[50], int price, int quant, char type)
     size++;
 }
 */
-void push_budget(char name[50], int price, int quant, char type)
+void push_budget(int s_no , char name[50], int price, int quant, char type)
 {
     if (bug_size >= MAX)
     {
@@ -63,6 +63,7 @@ void push_budget(char name[50], int price, int quant, char type)
     }
     struct node *new_node = (struct node *)malloc(sizeof(struct node));
     strcpy(new_node->proName, name);
+    new_node->srNo = s_no;
     new_node->quan = quant;
     new_node->price = price;
     new_node->preference = type;
@@ -78,7 +79,7 @@ void budget_list(int budget_amt)
     {
         if (temp->price <= budget_amt)
         {
-            push_budget(temp->proName, temp->price, temp->quan, temp->preference);
+            push_budget(temp->srNo , temp->proName, temp->price, temp->quan, temp->preference);
         }
         temp = temp->next;
     }
