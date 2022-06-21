@@ -20,7 +20,7 @@ void push_back(char name[50] , int price , int quant , char type) {
         exit(0);
     }
     node *new_node = (node *)malloc(sizeof(node));
-    strcpy(name , new_node->prod_name);
+    strcpy(new_node->prod_name , name);
     new_node->prod_quant_sold = quant;
     new_node->prod_price = price;
     new_node->prod_type = type;
@@ -36,7 +36,7 @@ void push_veg(char name[50] , int price , int quant , char type) {
     }
     node *new_node = (node *)malloc(sizeof(node));
     new_node->prod_quant_sold = quant;
-    strcpy(name , new_node->prod_name);
+    strcpy(new_node->prod_name , name);
     new_node->prod_price = price;
     new_node->prod_type = type;
     new_node->next = veg_head;
@@ -113,13 +113,12 @@ int main() {
     int j = 1;
     node *qt = nveg_head;
     printf("######### THE NON-VEG MENU ##########\n\n");
-    while (ptr != NULL) {
-        printf("%d\t\t%s\t\t%d\t\t%d\t\t%c\n" , i , qt->prod_name , qt->prod_price , qt->prod_quant_sold , qt->prod_type);
+    while (qt != NULL) {
+        printf("%d\t\t%s\t\t%d\t\t%d\t\t%c\n" , j , qt->prod_name , qt->prod_price , qt->prod_quant_sold , qt->prod_type);
         j++;
         qt = qt->next;
     }
     return 0;
-
 }
 
 
