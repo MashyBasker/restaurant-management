@@ -6,7 +6,7 @@ struct node
 {
     int srNo, quan, price;
     char proName[50];
-    char preference[50];
+    char preference;
     struct node *next;
 };
 

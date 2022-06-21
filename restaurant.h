@@ -6,7 +6,7 @@ struct node
 {
     int srNo, quan, price;
     char proName[50];
-    char preference[50];
+    char preference;
     struct node *next;
 };
 
@@ -62,7 +62,7 @@ void push(char *line)
             else if (i == 5)
             {
 
-                strcpy(ptr->preference, token);
+                ptr->preference = *token;
             }
             // The first call to strtok must pass the C string to tokenize, and subsequent calls must specify NULL as the first argument, which tells the function to continue tokenizing the string you passed in first.
 
@@ -185,30 +185,8 @@ void display()
         printf("-----------------TODAYS MENU TO BE PREPARED------------------------- \n");
         while (ptr != NULL)
         {
-            printf("%d %s %d %d %s \n", ptr->srNo, ptr->proName, ptr->price, ptr->quan, ptr->preference);
+            printf("%d %s %d %d %c \n", ptr->srNo, ptr->proName, ptr->price, ptr->quan, ptr->preference);
             ptr = ptr->next;
         }
     }
-}
-
-int main()
-{
-    FILE *the_file = fopen("excelinput.csv", "r");
-    if (the_file == NULL)
-    {
-        perror("Unable to open file.");
-        exit(1);
-    }
-    char line[200];
-    skip_line(the_file);
-
-    while (fgets(line, sizeof(line), the_file))
-    {
-        push(line);
-        // disk(line);
-        // printf("\n");
-    }
-
-    MergeSort(&head);
-    display();
 }
