@@ -1,11 +1,11 @@
 Serial.no ,ProductName            ,ProductPrice ,QuantitySold ,Type
-        1 ,Chowmein               ,         200 ,          19 ,VEG
-        2 ,Manchurian             ,         150 ,          12 ,VEG
-        3 ,friend rice            ,         120 ,          21 ,VEG
-        4 ,Fish roll              ,         299 ,         123 ,NON-VEG
-        5 ,Chicken  Tikka  masala ,         400 ,         439 ,NON-VEG
-        6 ,Chicken Roll           ,         121 ,         100 ,NON-VEG
-        7 ,Egg Roll               ,          70 ,          90 ,NON-VEG
-        8 ,Pasta                  ,         100 ,          70 ,VEG
-        9 ,Chat                   ,          50 ,         100 ,VEG
-       10 ,Chicken Biryani        ,         159 ,         200 ,NON-VEG
+        21 ,Chowmein               ,         200 ,          19 ,VEG
+        54 ,Manchurian             ,         150 ,          12 ,VEG
+        12 ,friend rice            ,         120 ,          21 ,VEG
+        76 ,Fish roll              ,         299 ,         123 ,NON-VEG
+        67 ,Chicken  Tikka  masala ,         400 ,         439 ,NON-VEG
+        73 ,Chicken Roll           ,         121 ,         100 ,NON-VEG
+        63 ,Egg Roll               ,          70 ,          90 ,NON-VEG
+        12 ,Pasta                  ,         100 ,          70 ,VEG
+        66 ,Chat                   ,          50 ,         100 ,VEG
+        15  ,Chicken Biryani        ,         159 ,         200 ,NON-VEG
