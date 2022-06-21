@@ -51,7 +51,7 @@ void push_nveg(char name[50] , int price , int quant , char type) {
     }
     node *new_node = (node *)malloc(sizeof(node));
     new_node->prod_quant_sold = quant;
-    strcpy(name , new_node->prod_name);
+    strcpy(new_node->prod_name , name);
     new_node->prod_price = price;
     new_node->prod_type = type;
     new_node->next = nveg_head;
