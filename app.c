@@ -28,19 +28,6 @@ void pushing(int s_no, char name[50], int price, int quant, char type, int profi
         nveg_head = new_node;
     }
 }
-/*
-void push_veg(int s_no, char name[50], int price, int quant, char type)
-{
-    if (veg_siz >= MAX)
-    {
-        printf("STACK OVERFLOW.\n");
-        exit(0);
-    }
-    pushing(s_no, name, price, quant, type);
-
-    veg_siz++;
-}
-*/
 
 int ll_length(struct node *temp_head)
 {
@@ -85,8 +72,6 @@ int *convArrayPrice(struct node *temp_head)
         i++;
         temp = temp->next;
     }
-    for (int j = 0; j < len; j++)
-        printf("%d\n", arr[j]);
     return arr;
 }
 
@@ -102,8 +87,7 @@ int *convArrayProfit(struct node *temp_head)
         i++;
         temp = temp->next;
     }
-    for (int j = 0; j < len; j++)
-        printf("%d\n", arr[j]);
+
     return arr;
 }
 int max(int a, int b) { return (a > b) ? a : b; }
@@ -130,10 +114,10 @@ void knapSack(int budget, int price[], int profit[], int n, struct node *final)
     }
 
     int res = K[n][budget];
-    printf("%d\n", res);
+    // printf("%d\n", res);
 
     w = budget;
-    printf("Order this for best profit \n");
+    printf("\n\nORDER THIS FOR BEST TASTE\n\n");
     for (i = n; i > 0 && res > 0; i--)
     {
 
@@ -149,12 +133,12 @@ void knapSack(int budget, int price[], int profit[], int n, struct node *final)
 
             // This item is included.
             // This is price
-            printf("PRODUCT PRICE:%d\n ", price[i - 1]);
+            // printf("PRODUCT PRICE:%d\n ", price[i - 1]);
             while (tempro != NULL)
             {
                 if (price[i - 1] == tempro->price)
                 {
-                    printf("Serial no:%d\t Product Name:%s\t Price:%d\t Quantity:%d\t Prefernce:%c\t Profit:%d \n", tempro->srNo, tempro->proName, tempro->price, tempro->quan, tempro->preference, tempro->profit);
+                    printf("Serial no:%d\t Product Name:%s\t Price:%d\t Prefernce:%c\t  \n", tempro->srNo, tempro->proName, tempro->price, tempro->preference);
                 }
                 tempro = tempro->next;
             }
@@ -167,12 +151,20 @@ void knapSack(int budget, int price[], int profit[], int n, struct node *final)
         }
     }
 }
+void greetings() // Exit Screen
+{
+
+    printf("\n\n\n                  Thank You Very Much          \n ");
+    printf("             +============================+          \n\n");
+    printf("               && Please come again && \n\n");
+}
 
 int main()
 {
     struct node *temp;
     int *priceArr, *profitArr;
     int budget_amount;
+    char choice;
     FILE *the_file = fopen("excelinput.csv", "r");
     if (the_file == NULL)
     {
@@ -188,75 +180,76 @@ int main()
         // disk(line);
         // printf("\n");
     }
+    /// Start
+    printf("\n\n\n================ Welcome to Tikka ‘n’ Talk ================\n\n\n");
+    int ch;
 
-    MergeSort(&head);
-    display();
+    printf("Available choices : \n");
+    printf("1-->Login as admin\n");
+    printf("2-->Login as customer\n");
+    printf("3-->Exit from program\n");
+    printf("\n");
+    printf("Please enter your choice : ");
+    scanf("%d", &ch);
+    printf("\n");
+    switch (ch)
+    {
+    case 1:
+        MergeSort(&head);
+        display();
+        break;
+    case 2:
+
+        printf("DO YOU WANT VEG OR NON-VEG FOOD?[V/N]: ");
+        scanf(" %c", &choice);
+
+        if (choice == 'V')
+        {
+            // create_veg_list();
+            create_list();
+            temp = veg_head;
+
+            // printf("%s\n", veg_head->proName);
+            priceArr = convArrayPrice(veg_head);
+            profitArr = convArrayProfit(veg_head);
+
+            // printf("%d" , apply_knapsack(veg_head , budget_amount));
+        }
+        else if (choice == 'N')
+        {
+
+            create_list();
+            temp = nveg_head;
+
+            // printf("%s\n", veg_head->proName);
+            priceArr = convArrayPrice(nveg_head);
+            profitArr = convArrayProfit(nveg_head);
+        }
+
+        printf("ENTER YOUR BUDGET AMOUNT: ");
+        scanf("%d", &budget_amount);
+
+        knapSack(budget_amount, priceArr, profitArr, 5, temp);
+
+        struct node *ptr = budget_head;
+        while (ptr != NULL)
+        {
+            printf("%d\t\t%s\t\t%d\t\t%d\t\t%c\n", ptr->srNo, ptr->proName, ptr->price, ptr->quan, ptr->preference);
+            ptr = ptr->next;
+        }
+        // vegnonveg();
+        break;
+    default:
+        printf("Enter the correct choice\n");
+    }
+    greetings();
+    // END
+
+    // MergeSort(&head);
+    // display();
 
     // SPLIT BETWEEN VEG AND NON VEG
     // create_menu_list();
-    char choice;
-    printf("DO YOU WANT VEG OR NON-VEG FOOD?[V/N]: ");
-    scanf(" %c", &choice);
-    // printf("What is your budget: ");
-    // scanf("%d", &budget_amount);
-
-    if (choice == 'V')
-    {
-        // create_veg_list();
-        create_list();
-        temp = veg_head;
-        /*
-        struct node *ptr1 = veg_head;
-        printf("S.NO\t\tNAME\t\tPRICE\t\tQUANTITY SOLD\t\tMENU TYPE\n");
-        printf("+--------------------------------------------------------------------------------+\n\n");
-        while (ptr1 != NULL)
-        {
-            printf("%d\t\t%s\t\t%d\t\t%d\t\t%c\n", ptr1->srNo, ptr1->proName, ptr1->price, ptr1->quan, ptr1->preference);
-            ptr1 = ptr1->next;
-        }
-        */
-        // generate_bill(veg_head);
-        printf("%s\n", veg_head->proName);
-        priceArr = convArrayPrice(veg_head);
-        profitArr = convArrayProfit(veg_head);
-
-        // printf("%d" , apply_knapsack(veg_head , budget_amount));
-    }
-    else if (choice == 'N')
-    {
-        // create_nveg_list();
-        create_list();
-        temp = nveg_head;
-        /*
-        struct node *q = nveg_head;
-        printf("S.NO\t\tNAME\t\tPRICE\t\tQUANTITY SOLD\t\tMENU TYPE\n");
-        printf("+-------------------------------------------------------------------------------+\n\n");
-        while (q != NULL)
-        {
-            printf("%d\t\t%s\t\t%d\t\t%d\t\t%c\n", q->srNo, q->proName, q->price, q->quan, q->preference);
-            q = q->next;
-        }
-        */
-        // generate_bill(nveg_head);
-        // printf("%d" , apply_knapsack(nveg_head , budget_amount));
-        printf("%s\n", veg_head->proName);
-        priceArr = convArrayPrice(nveg_head);
-        profitArr = convArrayProfit(nveg_head);
-    }
-    // create_menu_list();
-
-    printf("ENTER YOUR BUDGET AMOUNT: ");
-    scanf("%d", &budget_amount);
-
-    knapSack(budget_amount, priceArr, profitArr, 5, temp);
-    // budget_list(budget_amount);
-
-    struct node *ptr = budget_head;
-    while (ptr != NULL)
-    {
-        printf("%d\t\t%s\t\t%d\t\t%d\t\t%c\n", ptr->srNo, ptr->proName, ptr->price, ptr->quan, ptr->preference);
-        ptr = ptr->next;
-    }
 
     return 0;
 }
