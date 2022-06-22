@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include "sack.h"
 #include <string.h>
+#include "test.h"
 
 #define MAX 100
 
@@ -27,6 +28,15 @@ void push_veg(int s_no , char name[50], int price, int quant, char type)
     veg_siz++;
 }
 
+int ll_length(struct node *temp_head) {
+    int n = 0;
+    struct node *p = temp_head;
+    while (p != NULL) {
+        n++;
+        p = p->next;
+    }
+    return n;
+}
 void push_nveg(int s_no , char name[50], int price, int quant, char type)
 {
     if (nveg_siz >= MAX)
@@ -96,6 +106,31 @@ void generate_bill(struct node *temp_head) {
         p = temp_head;
     }
     printf("TOTAL: %d\n" , sum);
+
+}
+
+int *get_price(struct node *tmp_head) {
+    struct node *pte = tmp_head;
+    int price_len = ll_length(pte);
+    int price_arr[price_len];
+    for (int i = 0 ; i < price_len ; i++) {
+        price_arr[i] = pte->price;
+        pte = pte->next;
+    }
+    return price_arr;
+}
+
+int *get_profit(struct node *tmp_head) {
+    struct node *ptr = tmp_head;
+    int profit_len = ll_length(ptr);
+    int profit_arr[profit_len];
+    for (int i = 0 ; i < profit_len ; i++) {
+        //profit_arr[i] = ptr->profits;
+    }
+    return profit_arr;
+}
+
+void apply_knapsack() {
 
 }
 
