@@ -7,6 +7,7 @@ struct node
     int srNo, quan, price;
     char proName[50];
     char preference;
+    int profit;
     struct node *next;
 };
 
@@ -61,9 +62,11 @@ void push(char *line)
             }
             else if (i == 5)
             {
-
+                i++;
                 ptr->preference = *token;
             }
+            else
+                ptr->profit = atoi(token);
             // The first call to strtok must pass the C string to tokenize, and subsequent calls must specify NULL as the first argument, which tells the function to continue tokenizing the string you passed in first.
 
             token = strtok(NULL, ",");
@@ -180,7 +183,7 @@ void display()
     }
     else
     {
-        printf("-----------------TODAYS MENU TO BE PREPARED------------------------- \n");
+        printf("-----------------TODAY'S MENU TO BE PREPARED------------------------- \n");
         while (ptr != NULL)
         {
             printf("%d %s %d %d %c \n", ptr->srNo, ptr->proName, ptr->price, ptr->quan, ptr->preference);
