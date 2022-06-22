@@ -2,7 +2,6 @@
 #include <string.h>
 #include <stdlib.h>
 #include <math.h>
-//#include "test.h"
 
 #define MAX 100
 
@@ -72,53 +71,7 @@ void create_list()
         temp = temp->next;
     }
 }
-/*
-int *get_price_arr(struct node *tmp_head) {
-    struct node *pte = tmp_head;
-    // int price_len = ll_length(pte);
-    int *price_arr = malloc(sizeof(int) * price_len);
-    for (int i = 0 ; i < price_len ; i++) {
-        price_arr[i] = pte->price;
-        pte = pte->next;
-    }
-    return price_arr;
-}
 
-int *get_profit_arr(struct node *tmp_head) {
-    struct node *ptr = tmp_head;
-    // int profit_len = ll_length(ptr);
-    int *profit_arr = malloc(sizeof(int) * profit_len);
-    for (int i = 0 ; i < profit_len ; i++) {
-        printf("%d\n",profit_arr[i]);
-                profit_arr[i] = ptr->profit;
-    }
-    return profit_arr;
-}
-
-int apply_knapsack(struct node *temp_head , int W) {
-    struct node *p = temp_head;
-    int *profit = get_profit_arr(p);
-    int *price = get_price_arr(p);
-    // int n = ll_length(p);
-    int i, w;
-    int K[n + 1][W + 1];
-
-    // /* Build table K[][] in bottom up manner
-    for (i = 0 ; i <= n ; i++)
-    {
-        for (w = 0; w <= W; w++)
-        {
-            if (i == 0 || w == 0)
-                K[i][w] = 0;
-            else if (price[i - 1] <= w)
-                K[i][w] = fmax(profit[i - 1] + K[i - 1][w - price[i - 1]], K[i - 1][w]);
-            else
-                K[i][w] = K[i - 1][w];
-        }
-    }
-    return K[n][W];
-}
-*/
 int *convArrayPrice(struct node *temp_head)
 {
     struct node *temp = temp_head;
@@ -156,30 +109,68 @@ int *convArrayProfit(struct node *temp_head)
 int max(int a, int b) { return (a > b) ? a : b; }
 
 // Returns the maximum value that can be put in a knapsack of capacity W
-int knapSack(int W, int weight[], int value[], int n)
+void knapSack(int budget, int price[], int profit[], int n, struct node *final)
 {
+    struct node *tempro = final;
     int i, w;
-    int K[n + 1][W + 1];
+    int K[n + 1][budget + 1];
 
     /* Build table K[][] in bottom up manner */
     for (i = 0; i <= n; i++)
     {
-        for (w = 0; w <= W; w++)
+        for (w = 0; w <= budget; w++)
         {
             if (i == 0 || w == 0)
                 K[i][w] = 0;
-            else if (weight[i - 1] <= w)
-                K[i][w] = max(value[i - 1] + K[i - 1][w - weight[i - 1]], K[i - 1][w]);
+            else if (price[i - 1] <= w)
+                K[i][w] = max(profit[i - 1] + K[i - 1][w - price[i - 1]], K[i - 1][w]);
             else
                 K[i][w] = K[i - 1][w];
         }
     }
 
-    return K[n][W];
+    int res = K[n][budget];
+    printf("%d\n", res);
+
+    w = budget;
+    printf("Order this for best profit \n");
+    for (i = n; i > 0 && res > 0; i--)
+    {
+
+        // either the result comes from the top
+        // (K[i-1][w]) or from (val[i-1] + K[i-1]
+        // [w-wt[i-1]]) as in Knapsack table. If
+        // it comes from the latter one/ it means
+        // the item is included.
+        if (res == K[i - 1][w])
+            continue;
+        else
+        {
+
+            // This item is included.
+            // This is price
+            printf("PRODUCT PRICE:%d\n ", price[i - 1]);
+            while (tempro != NULL)
+            {
+                if (price[i - 1] == tempro->price)
+                {
+                    printf("Serial no:%d\t Product Name:%s\t Price:%d\t Quantity:%d\t Prefernce:%c\t Profit:%d \n", tempro->srNo, tempro->proName, tempro->price, tempro->quan, tempro->preference, tempro->profit);
+                }
+                tempro = tempro->next;
+            }
+            tempro = final;
+
+            // Since this price is included its
+            // profit is deducted
+            res = res - profit[i - 1];
+            w = w - price[i - 1];
+        }
+    }
 }
 
 int main()
 {
+    struct node *temp;
     int *priceArr, *profitArr;
     int budget_amount;
     FILE *the_file = fopen("excelinput.csv", "r");
@@ -213,6 +204,7 @@ int main()
     {
         // create_veg_list();
         create_list();
+        temp = veg_head;
         /*
         struct node *ptr1 = veg_head;
         printf("S.NO\t\tNAME\t\tPRICE\t\tQUANTITY SOLD\t\tMENU TYPE\n");
@@ -234,6 +226,7 @@ int main()
     {
         // create_nveg_list();
         create_list();
+        temp = nveg_head;
         /*
         struct node *q = nveg_head;
         printf("S.NO\t\tNAME\t\tPRICE\t\tQUANTITY SOLD\t\tMENU TYPE\n");
@@ -255,8 +248,9 @@ int main()
     printf("ENTER YOUR BUDGET AMOUNT: ");
     scanf("%d", &budget_amount);
 
-    printf("\nMaximum value in a 0-1 knapsack : %d\n", knapSack(budget_amount, priceArr, profitArr, 5));
+    knapSack(budget_amount, priceArr, profitArr, 5, temp);
     // budget_list(budget_amount);
+
     struct node *ptr = budget_head;
     while (ptr != NULL)
     {

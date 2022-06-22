@@ -86,7 +86,6 @@ void push(char *line)
         ptr->next = head;
         head = ptr;
     }
-    // printf("Item pushed");
 }
 
 /* function prototypes */
