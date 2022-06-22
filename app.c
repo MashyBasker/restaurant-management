@@ -159,6 +159,32 @@ void greetings() // Exit Screen
     printf("               && Please come again && \n\n");
 }
 
+void generate_bill(struct node *temp) {
+
+    struct node *p=temp;
+    int no_of_orders;
+    printf("HOW MANY ITEMS DO YOU WANT TO ORDER?: ");
+    scanf("%d" , &no_of_orders);
+    int serial_no[no_of_orders];
+    printf("ENTER THE SERIAL NUMBERS OF ITEMS\n\n");
+    for (int i = 0 ; i < no_of_orders ; i++) {
+        printf("ENTER ITEM %d SERIAL NUMBER: " , i + 1);
+        scanf("%d" , &serial_no[i]);
+    }
+    int sum=0;
+    for (int j=0 ; j < no_of_orders ; j++) {
+        while (p != NULL) {
+            if (p->srNo == serial_no[j]) {
+                printf("ITEM %d NAME: %s\tPRICE: %d\n" , j + 1 , p->proName , p->price);
+                sum += p->price;
+            }
+            p = p->next;
+        }
+        p = temp;
+    }
+    printf("TOTAL PRICE:\t%d" , sum);
+}
+
 int main()
 {
     struct node *temp;
@@ -231,12 +257,13 @@ int main()
 
         knapSack(budget_amount, priceArr, profitArr, 5, temp);
 
-        struct node *ptr = budget_head;
-        while (ptr != NULL)
-        {
-            printf("%d\t\t%s\t\t%d\t\t%d\t\t%c\n", ptr->srNo, ptr->proName, ptr->price, ptr->quan, ptr->preference);
-            ptr = ptr->next;
-        }
+        // struct node *ptr = budget_head;
+        // while (ptr != NULL)
+        // {
+        //     printf("%d\t\t%s\t\t%d\t\t%d\t\t%c\n", ptr->srNo, ptr->proName, ptr->price, ptr->quan, ptr->preference);
+        //     ptr = ptr->next;
+        // }
+        generate_bill(head);
         // vegnonveg();
         break;
     default:
