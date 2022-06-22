@@ -66,7 +66,7 @@ void push(char *line)
                 i++;
                 ptr->preference = *token;
             }
-            else
+            else if (i == 6)
                 ptr->profit = atoi(token);
             // The first call to strtok must pass the C string to tokenize, and subsequent calls must specify NULL as the first argument, which tells the function to continue tokenizing the string you passed in first.
 
@@ -187,7 +187,7 @@ void display()
         printf("-----------------TODAY'S MENU TO BE PREPARED------------------------- \n");
         while (ptr != NULL)
         {
-            printf("%d %s %d %d %c \n", ptr->srNo, ptr->proName, ptr->price, ptr->quan, ptr->preference);
+            printf("%d %s %d %d %c %d \n", ptr->srNo, ptr->proName, ptr->price, ptr->quan, ptr->preference, ptr->profit);
             ptr = ptr->next;
         }
     }

@@ -9,7 +9,7 @@
 struct node *head, *veg_head, *nveg_head;
 int veg_siz = 0, nveg_siz = 0;
 
-void pushing(int s_no, char name[50], int price, int quant, char type)
+void pushing(int s_no, char name[50], int price, int quant, char type, int profit)
 {
     struct node *new_node = (struct node *)malloc(sizeof(struct node));
     new_node->quan = quant;
@@ -17,6 +17,7 @@ void pushing(int s_no, char name[50], int price, int quant, char type)
     strcpy(new_node->proName, name);
     new_node->price = price;
     new_node->preference = type;
+    new_node->profit = profit;
     if (type == 'V')
     {
         new_node->next = veg_head;
@@ -42,10 +43,12 @@ void push_veg(int s_no, char name[50], int price, int quant, char type)
 }
 */
 
-int ll_length(struct node *temp_head) {
+int ll_length(struct node *temp_head)
+{
     int n = 0;
     struct node *p = temp_head;
-    while (p != NULL) {
+    while (p != NULL)
+    {
         n++;
         p = p->next;
     }
@@ -60,11 +63,11 @@ void create_list()
     {
         if (temp->preference == 'V')
         {
-            pushing(temp->srNo, temp->proName, temp->price, temp->quan, temp->preference);
+            pushing(temp->srNo, temp->proName, temp->price, temp->quan, temp->preference, temp->profit);
         }
         else if (temp->preference == 'N')
         {
-            pushing(temp->srNo, temp->proName, temp->price, temp->quan, temp->preference);
+            pushing(temp->srNo, temp->proName, temp->price, temp->quan, temp->preference, temp->profit);
         }
         temp = temp->next;
     }
@@ -100,7 +103,7 @@ int apply_knapsack(struct node *temp_head , int W) {
     int i, w;
     int K[n + 1][W + 1];
 
-    // /* Build table K[][] in bottom up manner 
+    // /* Build table K[][] in bottom up manner
     for (i = 0 ; i <= n ; i++)
     {
         for (w = 0; w <= W; w++)
@@ -116,41 +119,68 @@ int apply_knapsack(struct node *temp_head , int W) {
     return K[n][W];
 }
 */
-int* convArrayPrice(struct node *temp_head){
-    struct node* temp =temp_head;
-    int len=ll_length(temp);
-    int arr[len];
+int *convArrayPrice(struct node *temp_head)
+{
+    struct node *temp = temp_head;
+    int len = ll_length(temp);
+    int *arr = malloc(sizeof(int) * len);
+    ;
     int i = 0;
-    while(temp!=NULL){
-        arr[i]=temp->price;
+    while (temp != NULL)
+    {
+        arr[i] = temp->price;
         i++;
         temp = temp->next;
     }
+    for (int j = 0; j < len; j++)
+        printf("%d\n", arr[j]);
     return arr;
-    // for (int j=0;j<len;j++)
-    // printf("%d\n",arr[j]);
-
 }
-/*
-int* convArrayProfit(struct node *temp_head){
-    struct node* temp =temp_head;
-    int len=ll_length(temp);
-    int arr[len];
+
+int *convArrayProfit(struct node *temp_head)
+{
+    struct node *temp = temp_head;
+    int len = ll_length(temp);
+    int *arr = malloc(sizeof(int) * len);
     int i = 0;
-    while(temp!=NULL){
-        arr[i]=temp->profit;
+    while (temp != NULL)
+    {
+        arr[i] = temp->profit;
         i++;
         temp = temp->next;
     }
+    for (int j = 0; j < len; j++)
+        printf("%d\n", arr[j]);
     return arr;
-    // for (int j=0;j<len;j++)
-    // printf("%d\n",arr[j]);
-
 }
-*/
+int max(int a, int b) { return (a > b) ? a : b; }
+
+// Returns the maximum value that can be put in a knapsack of capacity W
+int knapSack(int W, int weight[], int value[], int n)
+{
+    int i, w;
+    int K[n + 1][W + 1];
+
+    /* Build table K[][] in bottom up manner */
+    for (i = 0; i <= n; i++)
+    {
+        for (w = 0; w <= W; w++)
+        {
+            if (i == 0 || w == 0)
+                K[i][w] = 0;
+            else if (weight[i - 1] <= w)
+                K[i][w] = max(value[i - 1] + K[i - 1][w - weight[i - 1]], K[i - 1][w]);
+            else
+                K[i][w] = K[i - 1][w];
+        }
+    }
+
+    return K[n][W];
+}
+
 int main()
-{   
-    int *priceArr;
+{
+    int *priceArr, *profitArr;
     int budget_amount;
     FILE *the_file = fopen("excelinput.csv", "r");
     if (the_file == NULL)
@@ -171,14 +201,13 @@ int main()
     MergeSort(&head);
     display();
 
-   
     // SPLIT BETWEEN VEG AND NON VEG
     // create_menu_list();
     char choice;
     printf("DO YOU WANT VEG OR NON-VEG FOOD?[V/N]: ");
     scanf(" %c", &choice);
-    printf("What is your budget: ");
-    scanf("%d",&budget_amount);
+    // printf("What is your budget: ");
+    // scanf("%d", &budget_amount);
 
     if (choice == 'V')
     {
@@ -195,9 +224,9 @@ int main()
         }
         */
         // generate_bill(veg_head);
-        printf("%s\n",veg_head->proName);
-        priceArr=convArrayPrice(veg_head);
-        // profitArr=convArrayProfit(veg_head);
+        printf("%s\n", veg_head->proName);
+        priceArr = convArrayPrice(veg_head);
+        profitArr = convArrayProfit(veg_head);
 
         // printf("%d" , apply_knapsack(veg_head , budget_amount));
     }
@@ -205,6 +234,7 @@ int main()
     {
         // create_nveg_list();
         create_list();
+        /*
         struct node *q = nveg_head;
         printf("S.NO\t\tNAME\t\tPRICE\t\tQUANTITY SOLD\t\tMENU TYPE\n");
         printf("+-------------------------------------------------------------------------------+\n\n");
@@ -213,13 +243,19 @@ int main()
             printf("%d\t\t%s\t\t%d\t\t%d\t\t%c\n", q->srNo, q->proName, q->price, q->quan, q->preference);
             q = q->next;
         }
+        */
         // generate_bill(nveg_head);
         // printf("%d" , apply_knapsack(nveg_head , budget_amount));
+        printf("%s\n", veg_head->proName);
+        priceArr = convArrayPrice(nveg_head);
+        profitArr = convArrayProfit(nveg_head);
     }
-     // create_menu_list();
-     /*
+    // create_menu_list();
+
     printf("ENTER YOUR BUDGET AMOUNT: ");
     scanf("%d", &budget_amount);
+
+    printf("\nMaximum value in a 0-1 knapsack : %d\n", knapSack(budget_amount, priceArr, profitArr, 5));
     // budget_list(budget_amount);
     struct node *ptr = budget_head;
     while (ptr != NULL)
@@ -227,6 +263,6 @@ int main()
         printf("%d\t\t%s\t\t%d\t\t%d\t\t%c\n", ptr->srNo, ptr->proName, ptr->price, ptr->quan, ptr->preference);
         ptr = ptr->next;
     }
-    */
+
     return 0;
 }
