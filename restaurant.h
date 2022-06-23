@@ -183,10 +183,12 @@ void display()
     }
     else
     {
-        printf("-------------------------TODAY'S MENU TO BE PREPARED------------------------- \n");
+        printf("---------------------------------------------------------------------------TODAY'S MENU TO BE PREPARED--------------------------------------------------------------------------- \n\n\n");
+        printf("Serial Number\t\t Product Name\t\t\t\t\t Product Price\t\t Quantity Sold\t\t Veg/Non-Veg\t\t Profit\t\t\n");
+        printf("----------------------------------------------------------------------------------------------------------------------------------------------------------- \n");
         while (ptr != NULL)
         {
-            printf("%d\t %s\t %d\t %d\t %c\t %d\t \n", ptr->srNo, ptr->proName, ptr->price, ptr->quan, ptr->preference, ptr->profit);
+            printf("%d\t\t\t %s\t\t\t %d\t\t\t %d\t\t\t %c\t\t\t %d\t\t\t \n", ptr->srNo, ptr->proName, ptr->price, ptr->quan, ptr->preference, ptr->profit);
             ptr = ptr->next;
         }
     }

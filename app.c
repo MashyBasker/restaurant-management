@@ -1,7 +1,4 @@
-#include "sack.h"
-#include <string.h>
-#include <stdlib.h>
-#include <math.h>
+#include "restaurant.h"
 
 #define MAX 100
 
@@ -90,7 +87,7 @@ int *convArrayProfit(struct node *temp_head)
 
     return arr;
 }
-int max(int a, int b) { return (a > b) ? a : b; }
+int maxm(int a, int b) { return (a > b) ? a : b; }
 
 // Returns the maximum value that can be put in a knapsack of capacity W
 void knapSack(int budget, int price[], int profit[], int n, struct node *final)
@@ -98,6 +95,7 @@ void knapSack(int budget, int price[], int profit[], int n, struct node *final)
     struct node *tempro = final;
     int i, w;
     int K[n + 1][budget + 1];
+    // int *testArr = malloc(sizeof(int) * n + 1)
 
     /* Build table K[][] in bottom up manner */
     for (i = 0; i <= n; i++)
@@ -107,7 +105,7 @@ void knapSack(int budget, int price[], int profit[], int n, struct node *final)
             if (i == 0 || w == 0)
                 K[i][w] = 0;
             else if (price[i - 1] <= w)
-                K[i][w] = max(profit[i - 1] + K[i - 1][w - price[i - 1]], K[i - 1][w]);
+                K[i][w] = maxm(profit[i - 1] + K[i - 1][w - price[i - 1]], K[i - 1][w]);
             else
                 K[i][w] = K[i - 1][w];
         }
@@ -117,7 +115,9 @@ void knapSack(int budget, int price[], int profit[], int n, struct node *final)
     // printf("%d\n", res);
 
     w = budget;
-    printf("\n\nORDER THIS FOR BEST TASTE\n\n");
+    printf("=====================================================================================\n");
+    printf("\t\t\t\tORDER THIS FOR BEST TASTE\n");
+    printf("=====================================================================================\n");
     for (i = n; i > 0 && res > 0; i--)
     {
 
@@ -154,35 +154,46 @@ void knapSack(int budget, int price[], int profit[], int n, struct node *final)
 void greetings() // Exit Screen
 {
 
-    printf("\n\n\n                  Thank You Very Much          \n ");
-    printf("             +============================+          \n\n");
-    printf("               && Please come again && \n\n");
+    printf("\n\t\t\t\tThank You Very Much\n ");
+    printf("=====================================================================================\n");
+    printf("\t\t\t\t Please come again\n\n");
 }
 
-void generate_bill(struct node *temp) {
+void generate_bill(struct node *temp)
+{
 
-    struct node *p=temp;
+    struct node *p = temp;
     int no_of_orders;
+    printf("=====================================================================================\n");
     printf("HOW MANY ITEMS DO YOU WANT TO ORDER?: ");
-    scanf("%d" , &no_of_orders);
+    scanf("%d", &no_of_orders);
+    printf("=====================================================================================\n");
     int serial_no[no_of_orders];
-    printf("ENTER THE SERIAL NUMBERS OF ITEMS\n\n");
-    for (int i = 0 ; i < no_of_orders ; i++) {
-        printf("ENTER ITEM %d SERIAL NUMBER: " , i + 1);
-        scanf("%d" , &serial_no[i]);
+    printf("ENTER THE SERIAL NUMBERS OF ITEMS TO BE ORDERED\n");
+    printf("=====================================================================================\n");
+    for (int i = 0; i < no_of_orders; i++)
+    {
+        printf("ENTER ORDER %d SERIAL NUMBER: ", i + 1);
+        scanf("%d", &serial_no[i]);
     }
-    int sum=0;
-    for (int j=0 ; j < no_of_orders ; j++) {
-        while (p != NULL) {
-            if (p->srNo == serial_no[j]) {
-                printf("ITEM %d NAME: %s\tPRICE: %d\n" , j + 1 , p->proName , p->price);
+    int sum = 0;
+    printf("=====================================================================================\n");
+    printf("\t\t\t\tTOTAL BILL\n");
+    printf("=====================================================================================\n");
+    for (int j = 0; j < no_of_orders; j++)
+    {
+        while (p != NULL)
+        {
+            if (p->srNo == serial_no[j])
+            {
+                printf("ITEM %d: %s\tPRICE: %d\n", j + 1, p->proName, p->price);
                 sum += p->price;
             }
             p = p->next;
         }
         p = temp;
     }
-    printf("TOTAL PRICE:\t%d" , sum);
+    printf("\nTOTAL PRICE:\t%d", sum);
 }
 
 int main()
@@ -207,7 +218,7 @@ int main()
         // printf("\n");
     }
     /// Start
-    printf("\n\n\n================ Welcome to Tikka ‘n’ Talk ================\n\n\n");
+    printf("\n============================================================= Welcome to CHIP ‘n’ DALE =============================================================\n");
     int ch;
 
     printf("Available choices : \n");
@@ -265,6 +276,9 @@ int main()
         // }
         generate_bill(head);
         // vegnonveg();
+        break;
+    case 3:
+        printf("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx Exiting Now xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\n");
         break;
     default:
         printf("Enter the correct choice\n");
