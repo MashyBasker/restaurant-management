@@ -72,7 +72,6 @@ void push(char *line)
 
             token = strtok(NULL, ",");
         }
-        // printf("\n");
     }
     if (head == NULL)
     {
@@ -140,12 +139,6 @@ struct node *SortedMerge(struct node *a, struct node *b)
     }
     return (result);
 }
-
-/* UTILITY FUNCTIONS */
-/* Split the nodes of the given list into front and back halves,
-    and return the two lists using the reference parameters.
-    If the length is odd, the extra node should go in the front list.
-    Uses the fast/slow pointer strategy. */
 void FrontBackSplit(struct node *source,
                     struct node **frontRef, struct node **backRef)
 {
@@ -165,8 +158,6 @@ void FrontBackSplit(struct node *source,
         }
     }
 
-    /* 'slow' is before the midpoint in the list, so split it in two
-    at that point. */
     *frontRef = source;
     *backRef = slow->next;
     slow->next = NULL;
